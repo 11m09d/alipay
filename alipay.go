@@ -293,7 +293,7 @@ func (a *Alipay) checkNotify(notifyID string) (err error) {
 }
 
 func parsePostData(req *http.Request) (vals url.Values, err error) {
-	var formStr = []byte(req.Form.Encode())
+	var formStr = ioutil.ReadAll(req.Body)
 	fmt.Printf("Post Strs:%s\n", formStr)
 	if len(formStr) > 0 {
 		var fields []string
