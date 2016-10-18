@@ -164,8 +164,11 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 	if err != nil {
 		fmt.Printf("回调结果验证失败!\n")
 		return
+	} else {
+		fmt.Printf("回调结果验证无误!\n")
 	}
-
+	fmt.Printf("支付状态:%s\n", vals.Get("trade_status"))
+	fmt.Printf("支付人:%s\n", vals.Get("buyer_id"))
 	var price, totalFee, discount float64
 	price, _ = strconv.ParseFloat(vals.Get("price"), 64)
 	totalFee, _ = strconv.ParseFloat(vals.Get("total_fee"), 64)
