@@ -112,7 +112,7 @@ func (a *Alipay) initQRCodeParams(outTradeNo, subject, notifyURL string, totalFe
 
 	params["timestamp"] = time.Unix(t, 0).Format("2006-01-02 15:04:05")
 
-	params["notify_url"] = notifyURL
+	//params["notify_url"] = notifyURL
 	params["version"] = "1.0"
 	params["biz_content"] = fmt.Sprintf(biz_content, outTradeNo, totalFee, "Test")
 
