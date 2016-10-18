@@ -167,33 +167,31 @@ func (a *Alipay) rsaVerify(vals url.Values, fields []string) (err error) {
 		var k, v string
 		k, err = url.QueryUnescape(key)
 		if err != nil {
-			return
+			return err
 		}
 
 		v, err = url.QueryUnescape(vals.Get(key))
 		if err != nil {
-			return
+			return err
 		}
 		kvs = append(kvs, KVpair{K: k, V: v})
 	}
-	fmt.Printf("Post Sort Strs:%s\n", []byte(kvs.RemoveEmpty().Sort().Join("&")))
 	hashed := SHA1([]byte(kvs.RemoveEmpty().Sort().Join("&")))
 
 	var inSign []byte
 	inSign, err = base64.StdEncoding.DecodeString(signature)
 	if err != nil {
-		return
+		return err
 	}
-	fmt.Printf("InSign:%s\n", signature)
 	err = rsa.VerifyPKCS1v15(a.publicKey, crypto.SHA1, hashed, inSign)
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return err
 	}
 
 	err = a.checkNotify(notifyID)
 	if err != nil {
-		return
+		return err
 	}
 	return
 }

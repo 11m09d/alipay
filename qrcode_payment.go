@@ -202,6 +202,6 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 		RefundStatus:     vals.Get("refund_status"),
 		GMTRefund:        vals.Get("gmt_refund"),
 	}
-
+	fmt.Println(result.BuyerID)
 	return
 }
