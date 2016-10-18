@@ -99,7 +99,7 @@ func (a *Alipay) QRCodePayment(outTradeNo, subject string, totalFee float64, not
 	return
 }
 
-func (a *Alipay) initQRCodeParams(outTradeNo, subject, notifyURL string, totalFee float64, extraParams map[string]string) (params map[string]string) {
+func (a *Alipay) initQRCodeParams(outTradeNo, subject, notifyURL string, totalFee float64) (params map[string]string) {
 	var t int64 = time.Now().Unix()
 	params = make(map[string]string)
 	biz_content := "{'out_trade_no':'%s','total_amount':'%f','subject':'%s',}"
@@ -115,15 +115,6 @@ func (a *Alipay) initQRCodeParams(outTradeNo, subject, notifyURL string, totalFe
 	//params["notify_url"] = notifyURL
 	params["version"] = "1.0"
 	params["biz_content"] = fmt.Sprintf(biz_content, outTradeNo, totalFee, "Test")
-
-	if extraParams != nil {
-		for k, v := range extraParams {
-			_, ok := instantCreditParamMap[k]
-			if ok {
-				params[k] = v
-			}
-		}
-	}
 	return
 }
 
