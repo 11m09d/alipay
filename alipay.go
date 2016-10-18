@@ -186,6 +186,7 @@ func (a *Alipay) rsaVerify(vals url.Values, fields []string) (err error) {
 	err = rsa.VerifyPKCS1v15(a.publicKey, crypto.SHA1, hashed, inSign)
 	if err != nil {
 		fmt.Println(err.Error())
+		fmt.Printf("Notify_ID:%s\n", notifyID)
 		return err
 	}
 
@@ -232,7 +233,8 @@ func (a *Alipay) verify(vals url.Values, fields []string) (err error) {
 	signStr := MD5(kvs.RemoveEmpty().Sort().Join("&"), a.key)
 	if signStr != signature {
 		err = fmt.Errorf("%s illegal signature, want %s, got %s", LogPrefix, signature, signStr)
-		return
+		fmt.Printf("Notify_ID:%s\n", notifyID)
+		return err
 	}
 
 	//err = a.checkNotify(notifyID)
