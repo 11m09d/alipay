@@ -189,10 +189,10 @@ func (a *Alipay) rsaVerify(vals url.Values, fields []string) (err error) {
 		return err
 	}
 
-	err = a.checkNotify(notifyID)
-	if err != nil {
-		return err
-	}
+	//err = a.checkNotify(notifyID)
+	//if err != nil {
+	//	return err
+	//}
 	return
 }
 
@@ -235,10 +235,10 @@ func (a *Alipay) verify(vals url.Values, fields []string) (err error) {
 		return
 	}
 
-	err = a.checkNotify(notifyID)
-	if err != nil {
-		return
-	}
+	//err = a.checkNotify(notifyID)
+	//if err != nil {
+	//return
+	//}
 	return
 }
 
@@ -296,7 +296,7 @@ func parsePostData(req *http.Request) (vals url.Values, err error) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	fmt.Printf("Post Strs:%s\n", formStr)
+	//fmt.Printf("Post Strs:%s\n", formStr)
 	if len(formStr) > 0 {
 		var fields []string
 		fields = strings.Split(string(formStr), "&")
