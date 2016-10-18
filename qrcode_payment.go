@@ -13,8 +13,8 @@ var initQRCodeParamMap = map[string]bool{
 	"method":         true,  //  接口名称。	不可空	alipay.trade.precreate
 	"format":         false, //  仅支持JSON。	可空 JSON
 	"charset":        true,  //  请求使用的编码格式，如utf-8,gbk,gb2312等。	utf-8
-	"sign_type":      true,  //  商户生成签名字符串所使用的签名算法类型，目前支持RSA。	不可空 RSA
-	"sign":           true,  //  商户请求参数的签名串，详见签名。	不可空	https://doc.open.alipay.com/doc2/detail.htm?treeId=200&articleId=105351&docType=1
+	"sign_type":      false, //  商户生成签名字符串所使用的签名算法类型，目前支持RSA。	不可空 RSA
+	"sign":           false, //  商户请求参数的签名串，详见签名。	不可空	https://doc.open.alipay.com/doc2/detail.htm?treeId=200&articleId=105351&docType=1
 	"timestamp":      true,  //  发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"。	不可空	2014-07-24 03:07:50
 	"version":        true,  //  调用的接口版本，固定为：1.0	不可空	1.0
 	"notify_url":     false, //  支付宝服务器主动通知商户服务器里指定的页面http/https路径。	可空	http://api.test.alipay.net/atinterface/receive_notify.htm
@@ -108,7 +108,7 @@ func (a *Alipay) initQRCodeParams(outTradeNo, subject, notifyURL string, totalFe
 	params["format"] = "json"
 
 	params["charset"] = "utf-8"
-	params["sign_type"] = "RSA"
+	//params["sign_type"] = "RSA"
 
 	params["timestamp"] = time.Unix(t, 0).Format("2006-01-02 15:04:05")
 
