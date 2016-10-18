@@ -135,31 +135,34 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 		"notify_id",
 		"sign_type",
 		"sign",
-		"out_trade_no",
-		"subject",
-		"payment_type",
 		"trade_no",
-		"trade_status",
-		"seller_id",
-		"seller_email",
+		"app_id",
+		"out_trade_no",
+		"out_biz_no",
 		"buyer_id",
-		"buyer_email",
-		"total_fee",
-		"quantity",
-		"price",
+		"buyer_logon_id",
+		"seller_id",
+		"sller_email",
+		"trade_status",
+		"total_amount",
+		"receipt_amount",
+		"invoice_amount",
+		"buyer_pay_amount",
+		"point_amount",
+		"refund_fee",
+		"send_back_fee",
+		"subject",
 		"body",
 		"gmt_create",
 		"gmt_payment",
-		"is_total_fee_adjust",
-		"use_coupon",
-		"discount",
-		"refund_status",
 		"gmt_refund",
 		"gmt_close",
+		"fund_bill_list",
 	}
 
 	err = a.rsaVerify(vals, fields)
 	if err != nil {
+		fmt.Printf("回调结果验证失败!\n")
 		return
 	}
 
