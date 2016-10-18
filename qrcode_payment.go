@@ -102,7 +102,7 @@ func (a *Alipay) QRCodePayment(outTradeNo, subject string, totalFee float64, not
 func (a *Alipay) initQRCodeParams(outTradeNo, subject, notifyURL string, totalFee float64) (params map[string]string) {
 	var t int64 = time.Now().Unix()
 	params = make(map[string]string)
-	biz_content := "{'out_trade_no':'%s','total_amount':'%f','subject':'%s',}"
+	biz_content := "{'out_trade_no':'%s','total_amount':'%f','subject':'%s'}"
 	params["app_id"] = a.partner
 	params["method"] = "alipay.trade.precreate"
 	params["format"] = "json"
