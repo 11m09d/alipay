@@ -120,6 +120,7 @@ func (a *Alipay) initQRCodeParams(outTradeNo, subject, notifyURL string, totalFe
 
 func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNotify, err error) {
 	vals, err := parsePostData(req)
+
 	fmt.Printf("支付状态:%s\n", vals.Get("trade_status"))
 	fmt.Printf("支付人:%s\n", vals.Get("buyer_id"))
 	if err != nil {
@@ -136,7 +137,6 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 		"notify_type",
 		"notify_id",
 		"sign_type",
-		"sign",
 		"trade_no",
 		"app_id",
 		"out_trade_no",
