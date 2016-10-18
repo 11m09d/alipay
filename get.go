@@ -26,5 +26,5 @@ func (alipay *Alipay) DoHttpGet(targetUrl string) ([]byte, error) {
 		return nil, err
 	}
 
-	return respData, nil
+	return respData, err
 }
