@@ -50,7 +50,7 @@ type QRCodePaymentNotify struct {
 	GMTRefund        string  //  gmt_refund	退款时间	Date	卖家退款的时间，退款通知时会发送。格式为yyyy-MM-dd HH:mm:ss。	可空	2008-10-29 19:38:25
 }
 
-func (a *Alipay) QRCodePayment(outTradeNo, subject string, totalFee float64, notifyURL string, extraParams map[string]string) (s string, err error) {
+func (a *Alipay) QRCodePayment(outTradeNo, subject string, totalFee float64, notifyURL string) (s string, err error) {
 	if outTradeNo == "" {
 		err = fmt.Errorf("%s out_trade_no : Required parameter missing", LogPrefix)
 		return
@@ -76,7 +76,7 @@ func (a *Alipay) QRCodePayment(outTradeNo, subject string, totalFee float64, not
 		return
 	}
 
-	params := a.initQRCodeParams(outTradeNo, subject, notifyURL, totalFee, extraParams)
+	params := a.initQRCodeParams(outTradeNo, subject, notifyURL, totalFee)
 	kvs, err := GenKVpairs(initQRCodeParamMap, params, "sign", "sign_type")
 	if err != nil {
 		return
