@@ -93,7 +93,7 @@ func (a *Alipay) QRCodePayment(outTradeNo, subject string, totalFee float64, not
 	}
 
 	kvs = append(kvs, KVpair{K: "sign", V: fmt.Sprintf(`%s`, url.QueryEscape(sig))})
-	kvs = append(kvs, KVpair{K: "sign_type", V: `RSA`})
+	//kvs = append(kvs, KVpair{K: "sign_type", V: `RSA`})
 
 	s = kvs.Join("&")
 	return
@@ -108,7 +108,7 @@ func (a *Alipay) initQRCodeParams(outTradeNo, subject, notifyURL string, totalFe
 	params["format"] = "json"
 
 	params["charset"] = "utf-8"
-	//params["sign_type"] = "RSA"
+	params["sign_type"] = "RSA"
 
 	params["timestamp"] = time.Unix(t, 0).Format("2006-01-02 15:04:05")
 
