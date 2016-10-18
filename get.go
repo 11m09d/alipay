@@ -7,11 +7,7 @@ import (
 )
 
 // doRequest get the order in xml format with a sign
-func doHttpGet(targetUrl string) ([]byte, error) {
-	req, err := http.NewRequest("GET", targetUrl, nil)
-	if err != nil {
-		return nil, err
-	}
+func DoHttpGet(targetUrl string) ([]byte, error) {
 	//req.Header.Add("Content-type", "application/x-www-form-urlencoded;charset=UTF-8")
 
 	tr := &http.Transport{
@@ -19,7 +15,7 @@ func doHttpGet(targetUrl string) ([]byte, error) {
 	}
 	client := &http.Client{Transport: tr}
 
-	resp, err := client.Do(req)
+	resp, err := client.Do(targetUrl)
 	if err != nil {
 		return nil, err
 	}
