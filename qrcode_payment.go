@@ -92,8 +92,8 @@ func (a *Alipay) QRCodePayment(outTradeNo, subject string, totalFee float64, not
 		return
 	}
 
-	kvs = append(kvs, KVpair{K: "sign", V: fmt.Sprintf(`"%s"`, url.QueryEscape(sig))})
-	kvs = append(kvs, KVpair{K: "sign_type", V: `"RSA"`})
+	kvs = append(kvs, KVpair{K: "sign", V: fmt.Sprintf(`%s`, url.QueryEscape(sig))})
+	kvs = append(kvs, KVpair{K: "sign_type", V: `RSA`})
 
 	s = kvs.Join("&")
 	return
@@ -104,16 +104,16 @@ func (a *Alipay) initQRCodeParams(outTradeNo, subject, notifyURL string, totalFe
 	params = make(map[string]string)
 	biz_content := "{'out_trade_no':'%s','total_amount':'%f','subject':'%s',}"
 	params["app_id"] = a.partner
-	params["method"] = `alipay.trade.precreate`
-	params["format"] = `JSON`
+	params["method"] = "alipay.trade.precreate"
+	params["format"] = "json"
 
-	params["charset"] = `utf-8`
-	params["sign_type"] = `RSA`
+	params["charset"] = "utf-8"
+	params["sign_type"] = "RSA"
 
 	params["timestamp"] = time.Unix(t, 0).Format("2006-01-02 15:04:05")
 
 	params["notify_url"] = notifyURL
-	params["version"] = `1.0`
+	params["version"] = "1.0"
 	params["biz_content"] = fmt.Sprintf(biz_content, outTradeNo, totalFee, "Test")
 
 	if extraParams != nil {
