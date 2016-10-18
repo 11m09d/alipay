@@ -168,7 +168,6 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 		fmt.Printf("Verify: %s\n", err.Error())
 		return
 	}
-	fmt.Println("one")
 	var price, totalFee, discount float64
 	price, _ = strconv.ParseFloat(vals.Get("price"), 64)
 	totalFee, _ = strconv.ParseFloat(vals.Get("total_fee"), 64)
@@ -224,6 +223,5 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 		RefundStatus:     vals.Get("refund_status"),
 		GMTRefund:        vals.Get("gmt_refund"),
 	}
-	fmt.Println("two")
 	return
 }
