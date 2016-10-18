@@ -22,7 +22,7 @@ var initQRCodeParamMap = map[string]bool{
 	"biz_content":    true,  //  请求参数的集合，最大长度不限，除公共参数外所有请求参数都必须放在这个参数中传递，具体参照各产品快速接入文档。	不可空
 }
 
-type QRCodePaymentNotify struct {
+type QRCodePaymentNotifyMap struct {
 	NotifyTime       string  //  notify_time	通知时间	Date	通知的发送时间。格式为yyyy-MM-dd HH:mm:ss。	不可空	2013-08-22 14:45:24
 	NotifyType       string  //  notify_type	通知类型	String	通知的类型。	不可空	trade_status_sync
 	NotifyID         string  //  notify_id	通知校验ID	String	通知校验ID。	不可空	64ce1b6ab92d00ede0ee56ade98fdf2f4c
@@ -118,7 +118,7 @@ func (a *Alipay) initQRCodeParams(outTradeNo, subject, notifyURL string, totalFe
 	return
 }
 
-func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNotify, err error) {
+func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNotifyMap, err error) {
 	vals, err := parsePostData(req)
 
 	//fmt.Printf("支付状态:%s\n", vals.Get("trade_status"))
@@ -174,7 +174,7 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 
 	var quantity int64
 	quantity, _ = strconv.ParseInt(vals.Get("quantity"), 10, 64)
-	result.BuyerID = vals.Get("buyer_id")
+	/*result.BuyerID = vals.Get("buyer_id")
 	result.TradeStatus = vals.Get("trade_status")
 	result.TotalFee = totalFee
 	result.Price = price
@@ -194,8 +194,8 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 	result.Body = vals.Get("body")
 	result.GMTCreate = vals.Get("gmt_create")
 	result.GMTPayment = vals.Get("gmt_payment")
-	result.GMTRefund = vals.Get("gmt_refund")
-	/*result = &QRCodePaymentNotify{
+	result.GMTRefund = vals.Get("gmt_refund")*/
+	result = &QRCodePaymentNotifyMap{
 		NotifyTime:       vals.Get("notify_time"),
 		NotifyType:       vals.Get("notify_type"),
 		NotifyID:         vals.Get("notify_id"),
@@ -221,7 +221,7 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 		Discount:         discount,
 		RefundStatus:     vals.Get("refund_status"),
 		GMTRefund:        vals.Get("gmt_refund"),
-	}*/
+	}
 	fmt.Println(result.BuyerID)
 	return
 }
