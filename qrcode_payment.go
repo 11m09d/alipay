@@ -176,6 +176,25 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 	quantity, _ = strconv.ParseInt(vals.Get("quantity"), 10, 64)
 	result.BuyerID = vals.Get("buyer_id")
 	result.TradeStatus = vals.Get("trade_status")
+	result.TotalFee = totalFee
+	result.Price = price
+	result.Discount = discount
+	result.Quantity = quantity
+	result.NotifyID = vals.Get("notify_id")
+	result.NotifyTime = vals.Get("notify_time")
+	result.NotifyType = vals.Get("notify_type")
+	result.Subject = vals.Get("subject")
+	result.Sign = vals.Get("sign")
+	result.SignType = vals.Get("sign_type")
+	result.OutTradeNo = vals.Get("out_trade_no")
+	result.PaymentType = vals.Get("payment_type")
+	result.TradeNo = vals.Get("trade_no")
+	result.SellerEmail = vals.Get("seller_email")
+	result.SellerID = vals.Get("seller_id")
+	result.Body = vals.Get("body")
+	result.GMTCreate = vals.Get("gmt_create")
+	result.GMTPayment = vals.Get("gmt_payment")
+	result.GMTRefund = vals.Get("gmt_refund")
 	/*result = &QRCodePaymentNotify{
 		NotifyTime:       vals.Get("notify_time"),
 		NotifyType:       vals.Get("notify_type"),
@@ -204,5 +223,5 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 		GMTRefund:        vals.Get("gmt_refund"),
 	}*/
 	fmt.Println(result.BuyerID)
-	return
+	return result
 }
