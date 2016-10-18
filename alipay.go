@@ -176,7 +176,7 @@ func (a *Alipay) rsaVerify(vals url.Values, fields []string) (err error) {
 		}
 		kvs = append(kvs, KVpair{K: k, V: v})
 	}
-
+	fmt.Printf("Post Sort Strs:%s\n", []byte(kvs.RemoveEmpty().Sort().Join("&")))
 	hashed := SHA1([]byte(kvs.RemoveEmpty().Sort().Join("&")))
 
 	var inSign []byte
