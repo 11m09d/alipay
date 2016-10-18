@@ -15,7 +15,7 @@ func DoHttpGet(targetUrl string) ([]byte, error) {
 	}
 	client := &http.Client{Transport: tr}
 
-	resp, err := client.Do(targetUrl)
+	resp, err := client.Get(targetUrl)
 	if err != nil {
 		return nil, err
 	}
