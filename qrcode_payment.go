@@ -121,8 +121,8 @@ func (a *Alipay) initQRCodeParams(outTradeNo, subject, notifyURL string, totalFe
 func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNotify, err error) {
 	vals, err := parsePostData(req)
 
-	fmt.Printf("支付状态:%s\n", vals.Get("trade_status"))
-	fmt.Printf("支付人:%s\n", vals.Get("buyer_id"))
+	//fmt.Printf("支付状态:%s\n", vals.Get("trade_status"))
+	//fmt.Printf("支付人:%s\n", vals.Get("buyer_id"))
 	if err != nil {
 		return
 	}
@@ -174,8 +174,9 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 
 	var quantity int64
 	quantity, _ = strconv.ParseInt(vals.Get("quantity"), 10, 64)
-
-	result = &QRCodePaymentNotify{
+	result.BuyerID = vals.Get("buyer_id")
+	result.TradeStatus = vals.Get("trade_status")
+	/*result = &QRCodePaymentNotify{
 		NotifyTime:       vals.Get("notify_time"),
 		NotifyType:       vals.Get("notify_type"),
 		NotifyID:         vals.Get("notify_id"),
@@ -201,7 +202,7 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 		Discount:         discount,
 		RefundStatus:     vals.Get("refund_status"),
 		GMTRefund:        vals.Get("gmt_refund"),
-	}
+	}*/
 	fmt.Println(result.BuyerID)
 	return
 }
