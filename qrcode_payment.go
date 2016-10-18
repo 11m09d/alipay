@@ -114,7 +114,7 @@ func (a *Alipay) initQRCodeParams(outTradeNo, subject, notifyURL string, totalFe
 
 	params["notify_url"] = notifyURL
 	params["version"] = "1.0"
-	params["biz_content"] = fmt.Sprintf(biz_content, outTradeNo, totalFee, "Test")
+	params["biz_content"] = fmt.Sprintf(biz_content, outTradeNo, totalFee, subject)
 	return
 }
 
