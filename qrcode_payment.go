@@ -83,7 +83,7 @@ func (a *Alipay) QRCodePayment(outTradeNo, subject string, totalFee float64, not
 	}
 
 	for i, kv := range kvs {
-		kvs[i] = KVpair{K: kv.K, V: fmt.Sprintf(`"%s"`, kv.V)}
+		kvs[i] = KVpair{K: kv.K, V: fmt.Sprintf(`%s`, kv.V)}
 	}
 
 	var sig string
