@@ -7,7 +7,7 @@ import (
 )
 
 // doRequest get the order in xml format with a sign
-func DoHttpGet(targetUrl string) ([]byte, error) {
+func (alipay *Alipay) DoHttpGet(targetUrl string) ([]byte, error) {
 	//req.Header.Add("Content-type", "application/x-www-form-urlencoded;charset=UTF-8")
 
 	tr := &http.Transport{
