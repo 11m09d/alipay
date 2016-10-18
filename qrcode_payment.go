@@ -223,5 +223,5 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 		GMTRefund:        vals.Get("gmt_refund"),
 	}*/
 	fmt.Println(result.BuyerID)
-	return result
+	return
 }
