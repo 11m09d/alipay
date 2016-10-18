@@ -3,32 +3,23 @@ package alipay
 import (
 	"fmt"
 	"net/http"
-	"strconv"
-
 	"net/url"
+	"strconv"
+	"time"
 )
 
 var initQRCodeParamMap = map[string]bool{
-	"":               true,  //  service	接口名称	String	接口名称，固定值。	不可空	mobile.securitypay.pay
-	"partner":        true,  //  partner	合作者身份ID	String(16)	签约的支付宝账号对应的支付宝唯一用户号。以2088开头的16位纯数字组成。	不可空	2088101568358171
-	"_input_charset": true,  //  _input_charset	参数编码字符集	String	商户网站使用的编码格式，固定为utf-8。	不可空	utf-8
-	"sign_type":      true,  //  sign_type	签名方式	String	签名类型，目前仅支持RSA。	不可空	RSA
-	"sign":           true,  //  sign	签名	String	请参见签名。	不可空	lBBK%2F0w5LOajrMrji7DUgEqNjIhQbidR13GovA5r3TgIbNqv231yC1NksLdw%2Ba3JnfHXoXuet6XNNHtn7VE%2BeCoRO1O%2BR1KugLrQEZMtG5jmJI
-	"notify_url":     true,  //  notify_url	服务器异步通知页面路径	String(200)	支付宝服务器主动通知商户网站里指定的页面http路径。	不可空	http://notify.msp.hk/notify.htm
-	"app_id":         false, //  app_id	客户端号	String	标识客户端。	可空	external
-	"appenv":         false, //  appenv	客户端来源	String	标识客户端来源。参数值内容约定如下：appenv=”system=客户端平台名^version=业务系统版本”	可空	appenv=”system=android^version=3.0.1.2”
-	"out_trade_no":   true,  //  out_trade_no	商户网站唯一订单号	String(64)	支付宝合作商户网站唯一订单号。	不可空	0819145412-6177
-	"subject":        true,  //  subject	商品名称	String(128)	商品的标题/交易标题/订单标题/订单关键字等。该参数最长为128个汉字。	不可空	测试
-	"payment_type":   true,  //  payment_type	支付类型	String(4)	支付类型。默认值为：1（商品购买）。	不可空	1
-	"seller_id":      true,  //  seller_id	卖家支付宝账号	String(16)	卖家支付宝账号（邮箱或手机号码格式）或其对应的支付宝唯一用户号（以2088开头的纯16位数字）。	不可空	xxx@alipay.com
-	"total_fee":      true,  //  total_fee	总金额	Number	该笔订单的资金总额，单位为RMB-Yuan。取值范围为[0.01，100000000.00]，精确到小数点后两位。	不可空	0.01
-	"body":           true,  //  body	商品详情	String(512)	对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。	不可空	测试测试
-	"goods_type":     false, //  goods_type	商品类型	String(1)	具体区分本地交易的商品类型。  1：实物交易；  0：虚拟交易。  默认为1（实物交易）。	可空	1
-	"rn_check":       false, //  rn_check	是否发起实名校验	String(1)	T：发起实名校验；  F：不发起实名校验。	可空	T
-	"it_b_pay":       false, //  it_b_pay	未付款交易的超时时间	String	设置未付款交易的超时时间，一旦超时，该笔交易就会自动被关闭。当用户输入支付密码、点击确认付款后（即创建支付宝交易后）开始计时。取值范围：1m～15d，或者使用绝对时间（示例格式：2014-06-13 16:00:00）。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。该参数数值不接受小数点，如1.5h，可转换为90m。	可空	30m
-	"extern_token":   false, //  extern_token	授权令牌	String(32)	开放平台返回的包含账户信息的token（授权令牌，商户在一定时间内对支付宝某些服务的访问权限）。通过授权登录后获取的alipay_open_id，作为该参数的value，登录授权账户即会为支付账户。	可空	1b258b84ed2faf3e88b4d979ed9fd4db
-	"out_context":    false, //  out_context	商户业务扩展参数	String(128)	业务扩展参数，支付宝特定的业务需要添加该字段，json格式。 商户接入时和支付宝协商确定。	可空	{“ccode”:“shanghai”,“no”:“2014052600006128”}
-
+	"app_id":         true,  //  支付宝分配给开发者的应用ID. 不可空
+	"method":         true,  //  接口名称。	不可空	alipay.trade.precreate
+	"format":         false, //  仅支持JSON。	可空 JSON
+	"charset":        true,  //  请求使用的编码格式，如utf-8,gbk,gb2312等。	utf-8
+	"sign_type":      true,  //  商户生成签名字符串所使用的签名算法类型，目前支持RSA。	不可空 RSA
+	"sign":           true,  //  商户请求参数的签名串，详见签名。	不可空	https://doc.open.alipay.com/doc2/detail.htm?treeId=200&articleId=105351&docType=1
+	"timestamp":      true,  //  发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"。	不可空	2014-07-24 03:07:50
+	"version":        true,  //  调用的接口版本，固定为：1.0	不可空	1.0
+	"notify_url":     false, //  支付宝服务器主动通知商户服务器里指定的页面http/https路径。	可空	http://api.test.alipay.net/atinterface/receive_notify.htm
+	"app_auth_token": false, //
+	"biz_content":    true,  //  请求参数的集合，最大长度不限，除公共参数外所有请求参数都必须放在这个参数中传递，具体参照各产品快速接入文档。	不可空
 }
 
 type QRCodePaymentNotify struct {
@@ -85,8 +76,8 @@ func (a *Alipay) QRCodePayment(outTradeNo, subject string, totalFee float64, not
 		return
 	}
 
-	params := a.initParams(outTradeNo, subject, notifyURL, totalFee, extraParams)
-	kvs, err := GenKVpairs(initMobileParamMap, params, "sign", "sign_type")
+	params := a.initQRCodeParams(outTradeNo, subject, notifyURL, totalFee, extraParams)
+	kvs, err := GenKVpairs(initQRCodeParamMap, params, "sign", "sign_type")
 	if err != nil {
 		return
 	}
@@ -108,21 +99,26 @@ func (a *Alipay) QRCodePayment(outTradeNo, subject string, totalFee float64, not
 	return
 }
 
-func (a *Alipay) initParams(outTradeNo, subject, notifyURL string, totalFee float64, extraParams map[string]string) (params map[string]string) {
+func (a *Alipay) initQRCodeParams(outTradeNo, subject, notifyURL string, totalFee float64, extraParams map[string]string) (params map[string]string) {
+	var t int64 = time.Now().Unix()
 	params = make(map[string]string)
+	biz_content := `{
+	'out_trade_no':'%s',
+	'total_amount':'%s',
+	'subject':'%s',
+	}`
+	params["app_id"] = a.partner
+	params["method"] = "alipay.trade.precreate"
+	params["format"] = "JSON"
 
-	params["service"] = "mobile.securitypay.pay"
-	params["_input_charset"] = "utf-8"
-	params["payment_type"] = "1"
+	params["charset"] = "utf-8"
+	params["sign_type"] = "RSA"
 
-	params["partner"] = a.partner
-	params["seller_id"] = a.partner
+	params["timestamp"] = string(time.Unix(t, 0).Format("2006-01-02 15:04:05"))
 
 	params["notify_url"] = notifyURL
-	params["out_trade_no"] = outTradeNo
-	params["total_fee"] = strconv.FormatFloat(totalFee, 'f', 2, 64)
-	params["subject"] = subject
-	params["body"] = subject
+	params["version"] = "1.0"
+	params["biz_content"] = fmt.Sprintf(biz_content, outTradeNo, totalFee, "Test")
 
 	if extraParams != nil {
 		for k, v := range extraParams {
@@ -135,7 +131,7 @@ func (a *Alipay) initParams(outTradeNo, subject, notifyURL string, totalFee floa
 	return
 }
 
-func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *MobilePaymentNotify, err error) {
+func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNotify, err error) {
 	vals, err := parsePostData(req)
 	if err != nil {
 		return
