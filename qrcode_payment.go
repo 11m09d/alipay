@@ -137,6 +137,7 @@ func (a *Alipay) QRCodePaymentNotify(req *http.Request) (result *QRCodePaymentNo
 		"notify_type",
 		"notify_id",
 		"sign_type",
+		"sign",
 		"trade_no",
 		"app_id",
 		"out_trade_no",
