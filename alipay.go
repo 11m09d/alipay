@@ -184,10 +184,10 @@ func (a *Alipay) rsaVerify(vals url.Values, fields []string) (err error) {
 	if err != nil {
 		return
 	}
-	fmt.Printf("InSign:%s\n", inSign)
+	fmt.Printf("InSign:%s\n", signature)
 	err = rsa.VerifyPKCS1v15(a.publicKey, crypto.SHA1, hashed, inSign)
 	if err != nil {
-		fmt.Println("Verify Err!")
+		fmt.Println(err.Error())
 		return
 	}
 
